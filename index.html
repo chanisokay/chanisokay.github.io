@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KODELABS — Web App yang Beneran Kepake</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Spline+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0c0a;
+    --bg-2:#121310;
+    --ink:#f4f3ee;
+    --ink-dim:#9a9b94;
+    --line:#262723;
+    --acid:#ccff00;
+    --acid-deep:#a3cc00;
+    --warm:#ff6b3d;
+    --r:18px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Spline Sans',sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  /* grain overlay */
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.04;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  ::selection{background:var(--acid);color:#000}
+  a{color:inherit;text-decoration:none}
+  .mono{font-family:'Space Mono',monospace;letter-spacing:-.02em}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 28px;
+    backdrop-filter:blur(12px);
+    background:rgba(11,12,10,.55);
+    border-bottom:1px solid transparent;
+    transition:border-color .3s,background .3s;
+  }
+  nav.scrolled{border-bottom-color:var(--line);background:rgba(11,12,10,.85)}
+  .brand{font-family:'Bricolage Grotesque';font-weight:800;font-size:21px;letter-spacing:-.03em;display:flex;align-items:center;gap:9px}
+  .brand .dot{width:11px;height:11px;background:var(--acid);border-radius:50%;box-shadow:0 0 14px var(--acid)}
+  .nav-links{display:flex;gap:34px;align-items:center}
+  .nav-links a{font-size:14.5px;color:var(--ink-dim);transition:color .2s;position:relative}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-cta{
+    background:var(--acid);color:#000;padding:10px 20px;border-radius:100px;
+    font-weight:600;font-size:14px;transition:transform .2s,box-shadow .2s;
+  }
+  .nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(204,255,0,.3)}
+  .burger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+  .burger span{width:24px;height:2px;background:var(--ink);transition:.3s}
+
+  /* ---------- HERO ---------- */
+  header{position:relative;padding:170px 0 90px;overflow:hidden}
+  .hero-glow{
+    position:absolute;top:-220px;right:-160px;width:620px;height:620px;
+    background:radial-gradient(circle,rgba(204,255,0,.16),transparent 62%);
+    pointer-events:none;filter:blur(8px);
+  }
+  .hero-grid{
+    position:absolute;inset:0;pointer-events:none;opacity:.5;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:60px 60px;
+    mask-image:radial-gradient(circle at 70% 0%,#000,transparent 70%);
+  }
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    border:1px solid var(--line);border-radius:100px;padding:7px 16px;
+    font-size:13px;color:var(--ink-dim);margin-bottom:30px;
+  }
+  .eyebrow .pulse{width:7px;height:7px;border-radius:50%;background:var(--acid);animation:pulse 1.8s infinite}
+  @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(204,255,0,.5)}50%{opacity:.6;box-shadow:0 0 0 6px rgba(204,255,0,0)}}
+  h1{
+    font-family:'Bricolage Grotesque';font-weight:800;
+    font-size:clamp(44px,8.5vw,92px);line-height:.96;letter-spacing:-.04em;
+    max-width:14ch;
+  }
+  h1 .hl{color:var(--acid);position:relative;white-space:nowrap}
+  h1 .hl::after{content:"";position:absolute;left:0;right:0;bottom:6px;height:11px;background:rgba(204,255,0,.16);z-index:-1}
+  .lead{margin-top:28px;font-size:clamp(16px,2vw,19px);color:var(--ink-dim);max-width:52ch}
+  .hero-cta{margin-top:42px;display:flex;gap:14px;flex-wrap:wrap}
+  .btn-primary{background:var(--acid);color:#000;padding:15px 30px;border-radius:100px;font-weight:600;font-size:15.5px;transition:transform .2s,box-shadow .2s}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(204,255,0,.28)}
+  .btn-ghost{border:1px solid var(--line);padding:15px 28px;border-radius:100px;font-weight:500;font-size:15.5px;color:var(--ink);transition:border-color .2s,background .2s}
+  .btn-ghost:hover{border-color:var(--ink-dim);background:var(--bg-2)}
+
+  /* reveal animation */
+  .rv{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .rv.in{opacity:1;transform:none}
+
+  /* ---------- MARQUEE ---------- */
+  .marquee{border-block:1px solid var(--line);overflow:hidden;padding:18px 0;margin-top:80px;white-space:nowrap}
+  .marquee-track{display:inline-flex;gap:50px;animation:scroll 24s linear infinite}
+  .marquee:hover .marquee-track{animation-play-state:paused}
+  .marquee span{font-family:'Bricolage Grotesque';font-weight:700;font-size:19px;color:var(--ink-dim);display:inline-flex;align-items:center;gap:50px}
+  .marquee span::after{content:"✦";color:var(--acid);font-size:13px}
+  @keyframes scroll{to{transform:translateX(-50%)}}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:100px 0;position:relative}
+  .sec-tag{font-family:'Space Mono',monospace;font-size:13px;color:var(--acid);letter-spacing:.05em;margin-bottom:18px;display:block}
+  .sec-title{font-family:'Bricolage Grotesque';font-weight:700;font-size:clamp(30px,4.5vw,50px);line-height:1.02;letter-spacing:-.03em;max-width:18ch}
+  .sec-head{margin-bottom:56px;max-width:680px}
+  .sec-head p{color:var(--ink-dim);margin-top:18px;font-size:17px}
+
+  /* services */
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .svc{
+    border:1px solid var(--line);border-radius:var(--r);padding:30px;
+    background:linear-gradient(160deg,var(--bg-2),var(--bg));
+    position:relative;overflow:hidden;transition:border-color .3s,transform .3s;
+  }
+  .svc:hover{border-color:var(--acid-deep);transform:translateY(-5px)}
+  .svc-num{font-family:'Space Mono',monospace;font-size:13px;color:var(--ink-dim)}
+  .svc h3{font-family:'Bricolage Grotesque';font-weight:700;font-size:22px;margin:16px 0 12px;letter-spacing:-.02em}
+  .svc p{color:var(--ink-dim);font-size:15px}
+  .svc-ico{width:46px;height:46px;border-radius:12px;background:rgba(204,255,0,.1);display:flex;align-items:center;justify-content:center;font-size:22px;border:1px solid rgba(204,255,0,.2)}
+
+  /* projects */
+  .proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+  .proj{
+    border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
+    background:var(--bg-2);transition:border-color .3s,transform .3s;position:relative;
+  }
+  .proj:hover{border-color:var(--acid-deep);transform:translateY(-5px)}
+  .proj-vis{height:200px;position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+  .proj-vis .mesh{position:absolute;inset:0}
+  .p1 .mesh{background:radial-gradient(circle at 30% 40%,rgba(204,255,0,.35),transparent 50%),radial-gradient(circle at 75% 70%,rgba(255,107,61,.3),transparent 55%),var(--bg)}
+  .p2 .mesh{background:radial-gradient(circle at 70% 30%,rgba(82,160,255,.32),transparent 55%),radial-gradient(circle at 25% 80%,rgba(204,255,0,.25),transparent 50%),var(--bg)}
+  .p3 .mesh{background:radial-gradient(circle at 50% 20%,rgba(255,107,61,.3),transparent 55%),radial-gradient(circle at 20% 85%,rgba(178,102,255,.28),transparent 50%),var(--bg)}
+  .p4 .mesh{background:radial-gradient(circle at 80% 60%,rgba(0,212,170,.3),transparent 55%),radial-gradient(circle at 20% 30%,rgba(204,255,0,.22),transparent 50%),var(--bg)}
+  .proj-mock{position:absolute;inset:24px 24px -40px;border-radius:12px 12px 0 0;background:rgba(11,12,10,.78);border:1px solid var(--line);backdrop-filter:blur(2px);padding:14px}
+  .mock-bar{display:flex;gap:6px;margin-bottom:12px}
+  .mock-bar i{width:9px;height:9px;border-radius:50%;background:var(--line)}
+  .mock-line{height:8px;border-radius:4px;background:var(--line);margin-bottom:8px}
+  .mock-line.s{width:55%}.mock-line.m{width:78%}.mock-line.a{width:40%;background:var(--acid-deep);opacity:.55}
+  .proj-body{padding:24px}
+  .proj-body .cat{font-family:'Space Mono',monospace;font-size:12px;color:var(--acid)}
+  .proj-body h3{font-family:'Bricolage Grotesque';font-weight:700;font-size:23px;margin:8px 0 10px;letter-spacing:-.02em}
+  .proj-body p{color:var(--ink-dim);font-size:14.5px}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .tags span{font-size:12px;color:var(--ink-dim);border:1px solid var(--line);padding:5px 11px;border-radius:100px}
+
+  /* process */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;counter-reset:s}
+  .step{border-top:2px solid var(--line);padding-top:22px;position:relative;transition:border-color .3s}
+  .step:hover{border-color:var(--acid)}
+  .step .n{font-family:'Bricolage Grotesque';font-weight:800;font-size:42px;color:var(--acid);letter-spacing:-.04em}
+  .step h4{font-family:'Bricolage Grotesque';font-weight:700;font-size:18px;margin:10px 0 8px}
+  .step p{color:var(--ink-dim);font-size:14px}
+
+  /* edge / why */
+  .edge{background:var(--bg-2);border:1px solid var(--line);border-radius:28px;padding:60px;position:relative;overflow:hidden}
+  .edge .glow{position:absolute;bottom:-180px;left:-100px;width:480px;height:480px;background:radial-gradient(circle,rgba(204,255,0,.12),transparent 60%)}
+  .edge-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:50px;align-items:center;position:relative}
+  .edge ul{list-style:none;margin-top:26px;display:flex;flex-direction:column;gap:18px}
+  .edge li{display:flex;gap:14px;align-items:flex-start;font-size:15.5px}
+  .edge li .ck{flex:none;width:24px;height:24px;border-radius:7px;background:var(--acid);color:#000;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;margin-top:1px}
+  .edge li b{color:var(--ink)}
+  .edge li span{color:var(--ink-dim)}
+  .stat-card{border:1px solid var(--line);border-radius:16px;padding:26px;background:var(--bg)}
+  .stat-card .big{font-family:'Bricolage Grotesque';font-weight:800;font-size:52px;color:var(--acid);letter-spacing:-.04em;line-height:1}
+  .stat-card p{color:var(--ink-dim);font-size:14px;margin-top:8px}
+  .stat-wrap{display:grid;gap:14px}
+
+  /* testimonial */
+  .quote{max-width:880px;margin:0 auto;text-align:center}
+  .quote blockquote{font-family:'Bricolage Grotesque';font-weight:600;font-size:clamp(24px,3.6vw,38px);line-height:1.25;letter-spacing:-.02em}
+  .quote blockquote .acc{color:var(--acid)}
+  .quote .who{margin-top:30px;color:var(--ink-dim);font-size:15px}
+  .quote .who b{color:var(--ink);font-weight:600}
+
+  /* CTA */
+  .cta{
+    background:var(--acid);color:#000;border-radius:30px;padding:72px 56px;text-align:center;position:relative;overflow:hidden;
+  }
+  .cta::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(0,0,0,.07) 1.2px,transparent 1.2px);background-size:22px 22px}
+  .cta h2{font-family:'Bricolage Grotesque';font-weight:800;font-size:clamp(32px,5.5vw,62px);letter-spacing:-.04em;line-height:.98;position:relative}
+  .cta p{position:relative;margin:20px auto 0;max-width:46ch;font-size:17px;color:#1a1a0e}
+  .cta .btns{position:relative;margin-top:38px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .cta .b-dark{background:#000;color:var(--acid);padding:16px 32px;border-radius:100px;font-weight:600;font-size:16px;transition:transform .2s}
+  .cta .b-dark:hover{transform:translateY(-3px)}
+  .cta .b-out{border:1.5px solid rgba(0,0,0,.3);padding:16px 30px;border-radius:100px;font-weight:600;font-size:16px;color:#000;transition:background .2s}
+  .cta .b-out:hover{background:rgba(0,0,0,.06)}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:56px 0 40px}
+  .foot-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:30px;align-items:flex-start}
+  .foot-grid p{color:var(--ink-dim);font-size:14px;margin-top:14px;max-width:34ch}
+  .foot-links{display:flex;gap:46px;flex-wrap:wrap}
+  .foot-col h5{font-size:13px;color:var(--ink-dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px}
+  .foot-col a{display:block;color:var(--ink);font-size:14.5px;margin-bottom:9px;transition:color .2s}
+  .foot-col a:hover{color:var(--acid)}
+  .foot-bottom{margin-top:46px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;color:var(--ink-dim);font-size:13px}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media(max-width:880px){
+    .nav-links{
+      position:fixed;inset:0 0 0 auto;width:74%;max-width:320px;background:var(--bg-2);
+      flex-direction:column;justify-content:center;gap:30px;padding:40px;
+      transform:translateX(100%);transition:transform .35s cubic-bezier(.2,.7,.2,1);
+      border-left:1px solid var(--line);z-index:99;
+    }
+    .nav-links.open{transform:none}
+    .nav-links a{font-size:20px}
+    .burger{display:flex;z-index:100}
+    .burger.x span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .burger.x span:nth-child(2){opacity:0}
+    .burger.x span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    .svc-grid,.steps{grid-template-columns:1fr 1fr}
+    .proj-grid{grid-template-columns:1fr}
+    .edge{padding:36px}
+    .edge-grid{grid-template-columns:1fr;gap:32px}
+    .cta{padding:50px 28px}
+  }
+  @media(max-width:560px){
+    .svc-grid,.steps{grid-template-columns:1fr}
+    .foot-bottom{flex-direction:column}
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#" class="brand"><span class="dot"></span>KODELABS</a>
+  <div class="nav-links" id="navlinks">
+    <a href="#layanan">Layanan</a>
+    <a href="#karya">Karya</a>
+    <a href="#proses">Proses</a>
+    <a href="#kenapa">Kenapa Saya</a>
+    <a href="#kontak" class="nav-cta">Ngobrol Yuk</a>
+  </div>
+  <div class="burger" id="burger"><span></span><span></span><span></span></div>
+</nav>
+
+<header>
+  <div class="hero-glow"></div>
+  <div class="hero-grid"></div>
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="pulse"></span> Tersedia untuk proyek baru — Q3 2026</div>
+    <h1 class="rv">Web app yang <span class="hl">beneran kepake</span>, bukan cuma keren di demo.</h1>
+    <p class="lead rv">Saya bangun sistem web yang fungsional, rapi, dan gampang dikembangkan — dengan pondasi yang bisa diadaptasi ulang ke kebutuhan bisnis lain. Cepat dikirim, murah dirawat.</p>
+    <div class="hero-cta rv">
+      <a href="#kontak" class="btn-primary">Mulai Proyek →</a>
+      <a href="#karya" class="btn-ghost">Lihat Karya</a>
+    </div>
+  </div>
+  <div class="marquee rv">
+    <div class="marquee-track">
+      <span>Dashboard Internal<span>Sistem Inventory<span>Booking & Reservasi<span>POS & Kasir<span>CRM Ringan<span>Portal Klien<span>Dashboard Internal<span>Sistem Inventory<span>Booking & Reservasi<span>POS & Kasir<span>CRM Ringan<span>Portal Klien</span></span></span></span></span></span></span></span></span></span></span></span>
+    </div>
+  </div>
+</header>
+
+<section id="layanan">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-tag">// LAYANAN</span>
+      <h2 class="sec-title">Yang bisa saya bangun untuk bisnis Anda</h2>
+      <p>Fokus saya bukan bikin yang ribet, tapi bikin yang menyelesaikan masalah operasional Anda — dan tetap enak dipakai tiap hari.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc rv"><div class="svc-ico">⚡</div><div class="svc-num">01</div><h3>Web App Custom</h3><p>Aplikasi internal sesuai alur kerja tim Anda: manajemen data, approval, laporan otomatis, sampai role pengguna.</p></div>
+      <div class="svc rv"><div class="svc-ico">🔁</div><div class="svc-num">02</div><h3>Sistem Reusable</h3><p>Pondasi modular yang sudah teruji, jadi fitur umum (auth, dashboard, billing) tinggal dipasang. Hemat waktu & biaya.</p></div>
+      <div class="svc rv"><div class="svc-ico">🛠️</div><div class="svc-num">03</div><h3>Revamp & Maintenance</h3><p>Punya sistem lama yang lemot atau berantakan? Saya rapikan, percepat, dan rawat supaya tahan jangka panjang.</p></div>
+      <div class="svc rv"><div class="svc-ico">📊</div><div class="svc-num">04</div><h3>Dashboard & Analitik</h3><p>Ubah data mentah jadi visual yang gampang dibaca pemilik bisnis — untuk ambil keputusan lebih cepat.</p></div>
+      <div class="svc rv"><div class="svc-ico">🔌</div><div class="svc-num">05</div><h3>Integrasi & API</h3><p>Sambungkan sistem Anda ke payment gateway, WhatsApp, atau tool lain biar semua jalan otomatis.</p></div>
+      <div class="svc rv"><div class="svc-ico">🚀</div><div class="svc-num">06</div><h3>MVP untuk Startup</h3><p>Validasi ide secepat mungkin dengan produk awal yang solid — siap ditunjukkan ke investor atau user pertama.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="karya">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-tag">// KARYA TERPILIH</span>
+      <h2 class="sec-title">Beberapa sistem yang sudah saya bangun</h2>
+      <p>Sebagian adalah proyek nyata, sebagian proyek konsep untuk menunjukkan kemampuan. Ganti dengan studi kasus Anda sendiri.</p>
+    </div>
+    <div class="proj-grid">
+      <div class="proj p1 rv">
+        <div class="proj-vis"><div class="mesh"></div><div class="proj-mock"><div class="mock-bar"><i></i><i></i><i></i></div><div class="mock-line m"></div><div class="mock-line a"></div><div class="mock-line s"></div></div></div>
+        <div class="proj-body"><span class="cat">RETAIL · POS</span><h3>KasirGo</h3><p>Sistem kasir & inventory untuk jaringan toko, sinkron real-time antar cabang dengan laporan harian otomatis.</p><div class="tags"><span>React</span><span>Node.js</span><span>PostgreSQL</span></div></div>
+      </div>
+      <div class="proj p2 rv">
+        <div class="proj-vis"><div class="mesh"></div><div class="proj-mock"><div class="mock-bar"><i></i><i></i><i></i></div><div class="mock-line s"></div><div class="mock-line m"></div><div class="mock-line a"></div></div></div>
+        <div class="proj-body"><span class="cat">F&B · BOOKING</span><h3>MejaKita</h3><p>Platform reservasi meja & antrian digital untuk restoran, lengkap dengan notifikasi WhatsApp ke pelanggan.</p><div class="tags"><span>Next.js</span><span>WA API</span><span>Supabase</span></div></div>
+      </div>
+      <div class="proj p3 rv">
+        <div class="proj-vis"><div class="mesh"></div><div class="proj-mock"><div class="mock-bar"><i></i><i></i><i></i></div><div class="mock-line m"></div><div class="mock-line s"></div><div class="mock-line a"></div></div></div>
+        <div class="proj-body"><span class="cat">JASA · CRM</span><h3>KlienPro</h3><p>CRM ringan untuk agensi: kelola lead, pipeline penawaran, dan invoice dalam satu tempat yang rapi.</p><div class="tags"><span>Vue</span><span>Laravel</span><span>MySQL</span></div></div>
+      </div>
+      <div class="proj p4 rv">
+        <div class="proj-vis"><div class="mesh"></div><div class="proj-mock"><div class="mock-bar"><i></i><i></i><i></i></div><div class="mock-line a"></div><div class="mock-line m"></div><div class="mock-line s"></div></div></div>
+        <div class="proj-body"><span class="cat">LOGISTIK · DASHBOARD</span><h3>StokPintar</h3><p>Dashboard manajemen gudang dengan peringatan stok menipis dan prediksi kebutuhan restock mingguan.</p><div class="tags"><span>React</span><span>Python</span><span>Chart.js</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="proses">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-tag">// CARA KERJA</span>
+      <h2 class="sec-title">Prosesnya transparan dari awal sampai serah terima</h2>
+    </div>
+    <div class="steps">
+      <div class="step rv"><div class="n">01</div><h4>Diskusi & Pemetaan</h4><p>Kita ngobrol soal masalah nyata bisnis Anda. Saya petakan kebutuhan dan kasih estimasi jujur.</p></div>
+      <div class="step rv"><div class="n">02</div><h4>Rancang & Sepakati</h4><p>Saya buat alur dan tampilan awal. Anda review dulu sebelum satu baris kode ditulis.</p></div>
+      <div class="step rv"><div class="n">03</div><h4>Bangun Bertahap</h4><p>Dikerjakan per modul dengan update rutin. Anda bisa lihat progres tanpa nunggu sampai akhir.</p></div>
+      <div class="step rv"><div class="n">04</div><h4>Kirim & Dampingi</h4><p>Sistem dirilis, tim Anda dilatih, dan saya tetap siap bantu untuk masa pemeliharaan.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="kenapa">
+  <div class="wrap">
+    <div class="edge rv">
+      <div class="glow"></div>
+      <div class="edge-grid">
+        <div>
+          <span class="sec-tag">// KENAPA SAYA</span>
+          <h2 class="sec-title">Sistem yang dibangun sekali, terpakai berkali-kali</h2>
+          <ul>
+            <li><span class="ck">✓</span><span><b>Pengiriman lebih cepat.</b> Pondasi modular saya sudah matang, jadi waktu pengerjaan jauh lebih singkat dibanding mulai dari nol.</span></li>
+            <li><span class="ck">✓</span><span><b>Biaya lebih efisien.</b> Anda tidak membayar untuk hal yang sudah saya kuasai dan punya — Anda bayar untuk hasil.</span></li>
+            <li><span class="ck">✓</span><span><b>Kode yang rapi & Anda miliki.</b> Bersih, terdokumentasi, dan sepenuhnya milik Anda. Tidak ada kunci tersembunyi.</span></li>
+            <li><span class="ck">✓</span><span><b>Komunikasi manusia.</b> Tanpa jargon. Saya jelaskan dengan bahasa yang dimengerti pemilik bisnis.</span></li>
+          </ul>
+        </div>
+        <div class="stat-wrap">
+          <div class="stat-card"><div class="big">2-4×</div><p>Lebih cepat dirilis berkat sistem yang sudah teruji ulang.</p></div>
+          <div class="stat-card"><div class="big">100%</div><p>Kepemilikan kode di tangan Anda setelah serah terima.</p></div>
+          <div class="stat-card"><div class="big">∞</div><p>Bisa dikembangkan terus seiring bisnis Anda tumbuh.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="quote rv">
+      <span class="sec-tag" style="display:block;text-align:center">// TESTIMONI</span>
+      <blockquote>“Sistemnya bikin kerja tim kami jauh lebih cepat. Yang dulu manual sekarang <span class="acc">otomatis semua</span> — dan dia ngerti maunya kami tanpa harus dijelasin berkali-kali.”</blockquote>
+      <p class="who"><b>— Nama Klien</b> · Pemilik, Nama Usaha &nbsp;<span style="opacity:.5">(contoh — ganti dengan testimoni asli)</span></p>
+    </div>
+  </div>
+</section>
+
+<section id="kontak">
+  <div class="wrap">
+    <div class="cta rv">
+      <h2>Punya ide atau masalah<br>yang mau diselesaikan?</h2>
+      <p>Ceritakan kebutuhan Anda. Konsultasi awal gratis, dan saya kasih estimasi yang jujur — tanpa kewajiban apa pun.</p>
+      <div class="btns">
+        <a href="https://wa.me/6280000000000" class="b-dark">Chat via WhatsApp</a>
+        <a href="mailto:halo@kodelabs.id" class="b-out">Kirim Email</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="#" class="brand"><span class="dot"></span>KODELABS</a>
+        <p>Membangun web app fungsional dengan sistem yang bisa dipakai ulang. Berbasis di Indonesia, melayani klien ke mana saja.</p>
+      </div>
+      <div class="foot-links">
+        <div class="foot-col"><h5>Menu</h5><a href="#layanan">Layanan</a><a href="#karya">Karya</a><a href="#proses">Proses</a><a href="#kenapa">Kenapa Saya</a></div>
+        <div class="foot-col"><h5>Kontak</h5><a href="mailto:halo@kodelabs.id">Email</a><a href="https://wa.me/6280000000000">WhatsApp</a><a href="#">LinkedIn</a><a href="#">GitHub</a></div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 KODELABS. Dibuat dengan ngopi.</span>
+      <span class="mono">v1.0 — siap dikustomisasi</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // nav scroll state
+  const nav=document.getElementById('nav');
+  addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>30));
+
+  // mobile menu
+  const burger=document.getElementById('burger'),links=document.getElementById('navlinks');
+  burger.addEventListener('click',()=>{burger.classList.toggle('x');links.classList.toggle('open')});
+  links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{burger.classList.remove('x');links.classList.remove('open')}));
+
+  // staggered reveal
+  const io=new IntersectionObserver((es)=>{
+    es.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('in'),i*60);io.unobserve(e.target)}});
+  },{threshold:.14});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
