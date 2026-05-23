@@ -146,6 +146,11 @@
   .p2 .mesh{background:radial-gradient(circle at 70% 30%,rgba(82,160,255,.32),transparent 55%),radial-gradient(circle at 25% 80%,rgba(204,255,0,.25),transparent 50%),var(--bg)}
   .p3 .mesh{background:radial-gradient(circle at 50% 20%,rgba(255,107,61,.3),transparent 55%),radial-gradient(circle at 20% 85%,rgba(178,102,255,.28),transparent 50%),var(--bg)}
   .p4 .mesh{background:radial-gradient(circle at 80% 60%,rgba(0,212,170,.3),transparent 55%),radial-gradient(circle at 20% 30%,rgba(204,255,0,.22),transparent 50%),var(--bg)}
+  .pmp .mesh{background:radial-gradient(circle at 32% 35%,rgba(13,148,136,.30),transparent 55%),radial-gradient(circle at 80% 78%,rgba(204,255,0,.18),transparent 50%),var(--bg)}
+  .pgq .mesh{background:radial-gradient(circle at 30% 35%,rgba(60,130,246,.26),transparent 55%),radial-gradient(circle at 80% 78%,rgba(204,255,0,.16),transparent 50%),var(--bg)}
+  .pgp .mesh{background:radial-gradient(circle at 30% 35%,rgba(245,158,11,.28),transparent 55%),radial-gradient(circle at 80% 78%,rgba(204,255,0,.16),transparent 50%),var(--bg)}
+  .pab .mesh{background:radial-gradient(circle at 30% 35%,rgba(168,85,247,.26),transparent 55%),radial-gradient(circle at 80% 78%,rgba(204,255,0,.16),transparent 50%),var(--bg)}
+  .proj-logo{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);max-width:62%;max-height:58%;object-fit:contain;filter:drop-shadow(0 6px 18px rgba(60,52,30,.12))}
   .proj-mock{position:absolute;inset:24px 24px -40px;border-radius:12px 12px 0 0;background:rgba(255,255,255,.92);border:1px solid rgba(0,0,0,.07);box-shadow:0 -6px 24px rgba(60,52,30,.08);backdrop-filter:blur(2px);padding:14px}
   .mock-bar{display:flex;gap:6px;margin-bottom:12px}
   .mock-bar i{width:9px;height:9px;border-radius:50%;background:#dcd6c8}
@@ -370,21 +375,21 @@
       </div>
     </div>
     <div class="proj-grid">
-      <div class="proj p1 rv">
-        <div class="proj-vis"><div class="mesh"></div><div class="proj-mock"><div class="mock-bar"><i></i><i></i><i></i></div><div class="mock-line m"></div><div class="mock-line a"></div><div class="mock-line s"></div></div></div>
-        <div class="proj-body"><span class="cat">RETAIL · POS</span><h3>KasirGo</h3><p>Sistem kasir & inventory untuk jaringan toko, sinkron real-time antar cabang dengan laporan harian otomatis.</p><div class="tags"><span>React</span><span>Node.js</span><span>PostgreSQL</span></div></div>
+      <div class="proj pmp rv">
+        <div class="proj-vis"><div class="mesh"></div><img class="proj-logo" src="mperson-logo.png" alt="MPerson"></div>
+        <div class="proj-body"><span class="cat">HRIS · LAYANAN KARYAWAN</span><h3>MPerson</h3><p>Portal HR & layanan mandiri karyawan: absensi berfoto, cuti, slip gaji, pinjaman, hingga peminjaman inventaris — semua dalam satu tempat. Dilengkapi notifikasi WhatsApp otomatis dan dashboard kehadiran real-time.</p><div class="tags"><span>Google Apps Script</span><span>JavaScript</span><span>WhatsApp API</span><span>Google Sheets</span></div></div>
       </div>
-      <div class="proj p2 rv">
-        <div class="proj-vis"><div class="mesh"></div><div class="proj-mock"><div class="mock-bar"><i></i><i></i><i></i></div><div class="mock-line s"></div><div class="mock-line m"></div><div class="mock-line a"></div></div></div>
-        <div class="proj-body"><span class="cat">F&B · BOOKING</span><h3>MejaKita</h3><p>Platform reservasi meja & antrian digital untuk restoran, lengkap dengan notifikasi WhatsApp ke pelanggan.</p><div class="tags"><span>Next.js</span><span>WA API</span><span>Supabase</span></div></div>
+      <div class="proj pgq rv">
+        <div class="proj-vis"><div class="mesh"></div><img class="proj-logo" src="GamaQuote_logo_transparent_500px.png" alt="GamaQuote"></div>
+        <div class="proj-body"><span class="cat">SALES · QUOTATION & RFQ</span><h3>GamaQuote</h3><p>Sistem pembuatan penawaran & pengelolaan RFQ untuk tim sales. Buat quotation, generate PDF otomatis, dan kirim langsung ke pelanggan via WhatsApp — lengkap dengan lookup harga produk real-time.</p><div class="tags"><span>Google Apps Script</span><span>JavaScript</span><span>WhatsApp API</span><span>jsPDF</span></div></div>
       </div>
-      <div class="proj p3 rv">
-        <div class="proj-vis"><div class="mesh"></div><div class="proj-mock"><div class="mock-bar"><i></i><i></i><i></i></div><div class="mock-line m"></div><div class="mock-line s"></div><div class="mock-line a"></div></div></div>
-        <div class="proj-body"><span class="cat">JASA · CRM</span><h3>KlienPro</h3><p>CRM ringan untuk agensi: kelola lead, pipeline penawaran, dan invoice dalam satu tempat yang rapi.</p><div class="tags"><span>Vue</span><span>Laravel</span><span>MySQL</span></div></div>
+      <div class="proj pgp rv">
+        <div class="proj-vis"><div class="mesh"></div><img class="proj-logo" src="GamaPrice_logo_500.png" alt="GamaPrice"></div>
+        <div class="proj-body"><span class="cat">PRICING · HPP & APPROVAL</span><h3>GamaPrice</h3><p>Sistem perhitungan HPP (harga pokok) & persetujuan harga jual. Tim input biaya, sistem hitung modal otomatis, lalu disetujui dengan pilihan markup — lengkap dengan PDF otomatis, notifikasi WhatsApp, dan price list terpusat.</p><div class="tags"><span>Google Apps Script</span><span>JavaScript</span><span>WhatsApp API</span><span>Google Sheets</span></div></div>
       </div>
-      <div class="proj p4 rv">
-        <div class="proj-vis"><div class="mesh"></div><div class="proj-mock"><div class="mock-bar"><i></i><i></i><i></i></div><div class="mock-line a"></div><div class="mock-line m"></div><div class="mock-line s"></div></div></div>
-        <div class="proj-body"><span class="cat">LOGISTIK · DASHBOARD</span><h3>StokPintar</h3><p>Dashboard manajemen gudang dengan peringatan stok menipis dan prediksi kebutuhan restock mingguan.</p><div class="tags"><span>React</span><span>Python</span><span>Chart.js</span></div></div>
+      <div class="proj pab rv">
+        <div class="proj-vis"><div class="mesh"></div><img class="proj-logo" src="assess_by_mpi.png" alt="Assess by MPI"></div>
+        <div class="proj-body"><span class="cat">REKRUTMEN · ASSESSMENT ONLINE</span><h3>Assess by MPI</h3><p>Platform asesmen kandidat online untuk rekrutmen. Buat tes berbatas waktu untuk berbagai posisi, lengkap dengan deteksi anti-curang, dashboard penilaian HR, ekspor PDF, dan notifikasi WhatsApp otomatis.</p><div class="tags"><span>Google Apps Script</span><span>JavaScript</span><span>WhatsApp API</span><span>Google Sheets</span></div></div>
       </div>
     </div>
   </div>
