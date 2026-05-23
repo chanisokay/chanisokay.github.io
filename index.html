@@ -157,6 +157,49 @@
   .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
   .tags span{font-size:12px;color:var(--ink-dim);border:1px solid var(--line);padding:5px 11px;border-radius:100px}
 
+  /* featured project */
+  .feat{
+    display:grid;grid-template-columns:1.05fr 1fr;gap:0;margin-bottom:24px;
+    border:1px solid var(--line);border-radius:24px;overflow:hidden;background:var(--bg-2);
+    box-shadow:0 14px 48px rgba(60,52,30,.08);
+  }
+  .feat-vis{position:relative;padding:38px;background:
+    radial-gradient(circle at 80% 15%,rgba(204,255,0,.22),transparent 55%),
+    radial-gradient(circle at 15% 90%,rgba(125,153,0,.12),transparent 50%),
+    linear-gradient(160deg,#1a1c12,#0f1009);
+    display:flex;align-items:center;justify-content:center;}
+  .app{width:100%;max-width:380px;background:#fbfaf5;border-radius:14px;box-shadow:0 20px 50px rgba(0,0,0,.35);overflow:hidden;border:1px solid rgba(0,0,0,.06)}
+  .app-top{background:#16150f;padding:11px 14px;display:flex;align-items:center;gap:8px}
+  .app-top i{width:8px;height:8px;border-radius:50%;background:#3a3a32}
+  .app-top b{color:var(--acid);font-family:'Space Mono',monospace;font-size:11px;margin-left:6px;font-weight:400}
+  .app-body{padding:14px}
+  .app-bal{background:#16150f;border-radius:10px;padding:13px 15px;margin-bottom:12px}
+  .app-bal .l{color:#9a9b94;font-size:9.5px;font-family:'Space Mono',monospace;letter-spacing:.04em}
+  .app-bal .v{color:var(--acid);font-family:'Bricolage Grotesque';font-weight:800;font-size:21px;letter-spacing:-.02em;line-height:1.2}
+  .app-row{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border:1px solid #ece6d8;border-radius:9px;margin-bottom:7px}
+  .app-row .co{font-size:9px;font-weight:700;font-family:'Space Mono',monospace;padding:3px 7px;border-radius:5px;background:rgba(125,153,0,.14);color:var(--acid-ink)}
+  .app-row .nm{font-size:11px;color:#16150f;font-weight:600;flex:1;margin:0 9px}
+  .app-row .st{font-size:8.5px;font-weight:700;padding:3px 8px;border-radius:100px}
+  .st.ok{background:var(--acid);color:#16150f}
+  .st.wait{background:#f0ead8;color:#8a8470}
+  .app-wa{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:9.5px;color:var(--acid-ink);font-family:'Space Mono',monospace}
+  .app-wa b{width:14px;height:14px;border-radius:50%;background:var(--acid);color:#16150f;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700}
+  .feat-body{padding:44px 40px;display:flex;flex-direction:column;justify-content:center}
+  .feat-badge{display:inline-flex;align-items:center;gap:7px;align-self:flex-start;background:var(--acid);color:#16150f;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;padding:5px 13px;border-radius:100px;margin-bottom:0}
+  .feat-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:18px}
+  .feat-logo{flex:none;width:108px;aspect-ratio:4/3;border:1px solid var(--line);border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;padding:10px;overflow:hidden}
+  .feat-logo img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+  .feat-logo .logo-ph{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;color:var(--ink-dim)}
+  .feat-body .cat{font-family:'Space Mono',monospace;font-size:12px;color:var(--acid-ink)}
+  .feat-body h3{font-family:'Bricolage Grotesque';font-weight:800;font-size:34px;letter-spacing:-.03em;margin:7px 0 14px}
+  .feat-body>p{color:var(--ink-dim);font-size:15.5px;margin-bottom:20px}
+  .feat-list{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:24px}
+  .feat-list li{display:flex;gap:11px;align-items:flex-start;font-size:14px;color:var(--ink-dim)}
+  .feat-list li .ck{flex:none;width:20px;height:20px;border-radius:6px;background:var(--acid);color:#16150f;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-top:1px}
+  .feat-list li b{color:var(--ink);font-weight:600}
+  .feat-cta{display:inline-flex;align-self:flex-start;background:var(--acid);color:#16150f;padding:12px 24px;border-radius:100px;font-weight:600;font-size:14.5px;transition:transform .2s,box-shadow .2s}
+  .feat-cta:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(204,255,0,.35)}
+
   /* process */
   .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;counter-reset:s}
   .step{border-top:2px solid var(--line);padding-top:22px;position:relative;transition:border-color .3s}
@@ -225,6 +268,9 @@
     .burger.x span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
     .svc-grid,.steps{grid-template-columns:1fr 1fr}
     .proj-grid{grid-template-columns:1fr}
+    .feat{grid-template-columns:1fr}
+    .feat-vis{padding:30px}
+    .feat-body{padding:32px 28px}
     .edge{padding:36px}
     .edge-grid{grid-template-columns:1fr;gap:32px}
     .cta{padding:50px 28px}
@@ -291,7 +337,39 @@
     <div class="sec-head rv">
       <span class="sec-tag">// KARYA TERPILIH</span>
       <h2 class="sec-title">Beberapa sistem yang sudah saya bangun</h2>
-      <p>Sebagian adalah proyek nyata, sebagian proyek konsep untuk menunjukkan kemampuan. Ganti dengan studi kasus Anda sendiri.</p>
+      <p>Sistem nyata yang sudah berjalan di lingkungan produksi — beberapa di antaranya saya bangun dan gunakan sendiri untuk menjalankan perusahaan saya.</p>
+    </div>
+    <div class="feat rv">
+      <div class="feat-vis">
+        <div class="app">
+          <div class="app-top"><i></i><i></i><i></i><b>Fundly · Pengajuan Dana</b></div>
+          <div class="app-body">
+            <div class="app-bal"><div class="l">SALDO KAS GABUNGAN</div><div class="v">Rp 1.248.500.000</div></div>
+            <div class="app-row"><span class="co">MPI</span><span class="nm">Pembelian Material — Klinik Bali</span><span class="st ok">Paid</span></div>
+            <div class="app-row"><span class="co">TSI</span><span class="nm">Operasional — Hub Benai</span><span class="st ok">Paid</span></div>
+            <div class="app-row"><span class="co">APK</span><span class="nm">Reimburse — Hub Gangga</span><span class="st wait">Waiting SPV</span></div>
+            <div class="app-wa"><b>✓</b> Bukti transfer terkirim otomatis via WhatsApp</div>
+          </div>
+        </div>
+      </div>
+      <div class="feat-body">
+        <div class="feat-top">
+          <span class="feat-badge">★ PROYEK UNGGULAN</span>
+          <div class="feat-logo"><img src="fundly_no_tagline_transparent_200px.png" alt="Fundly"></div>
+        </div>
+        <span class="cat">FINTECH INTERNAL · MANAJEMEN DANA</span>
+        <h3>Fundly</h3>
+        <p>Sistem pengajuan dan pencairan dana terpusat untuk grup perusahaan. Menggantikan proses manual yang tersebar — kini setiap permintaan dana melewati alur persetujuan berjenjang yang rapi, dengan jejak audit penuh dan notifikasi otomatis.</p>
+        <ul class="feat-list">
+          <li><span class="ck">✓</span><span><b>Approval berjenjang</b> — dari manajer, finance, hingga supervisor, terekam tiap langkahnya.</span></li>
+          <li><span class="ck">✓</span><span><b>Bukti transfer & notifikasi otomatis</b> via WhatsApp, terformat rapi per perusahaan.</span></li>
+          <li><span class="ck">✓</span><span><b>Multi-perusahaan & multi-jenis</b> — operasional, material, subkontraktor dalam satu sistem.</span></li>
+          <li><span class="ck">✓</span><span><b>Akuntansi & dashboard saldo real-time</b> terintegrasi penuh.</span></li>
+        </ul>
+        <p style="font-size:13.5px;color:var(--acid-ink);margin-bottom:24px">Mengelola ribuan transaksi nyata — sistem ini saya pakai sendiri untuk menjalankan operasional keuangan grup perusahaan saya.</p>
+        <a href="#" class="feat-cta">Lihat Demo Live →</a>
+        <div class="tags" style="margin-top:20px"><span>Google Apps Script</span><span>JavaScript</span><span>WhatsApp API</span><span>Google Workspace</span></div>
+      </div>
     </div>
     <div class="proj-grid">
       <div class="proj p1 rv">
